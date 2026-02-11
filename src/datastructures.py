@@ -10,6 +10,8 @@ class BankAccount:
         self.owner = owner
         self.balance = 0
         self.__pin = pin #En Python, usar doble guion bajo __ hace que el atributo sea privado, nadie puede verlo desde fuera fácilmente).
+        self.is_blocked=False #la cuenta empieza desbloqueada
+        self.attemp = 0 #numero de intentos permitidos 3
         
     def deposit(self,amount):
         self.balance += amount
@@ -17,6 +19,10 @@ class BankAccount:
     
     def withdraw(self,amount,pin_input):
         if pin_input != self.__pin:
+            self.attemp += 1
+            if self.attemp == 3:
+                self.is_blocked = True
+                return "CUENTA_BLOQUEADA"
             return "PIN INCORRECTO"
         if amount > self.balance:
             return "FONDOS_INSUFICIENTES"
