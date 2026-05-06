@@ -1,194 +1,251 @@
-<!-- hide -->
-# Family Static API
-<!-- endhide -->
+# 🏦 Cajero Automático (ATM) - API con Estructuras de Datos
 
-The Jackson Family needs a static API! We need to build the *data structures* and create the API endpoints to interact with it using [Hoppscotch](https://hoppscotch.io/) (recommended) or Postman.
+Una API REST implementada en Flask que simula un **Cajero Automático** usando estructuras de datos personalizadas. El proyecto demuestra la aplicación práctica de clases y métodos en Python para gestionar operaciones bancarias seguras.
 
-<onlyfor saas="false" withBanner="false">
-    
-## 🌱 How to start this project
+## 📋 Características
 
-This project comes with the necessary files to start working immediately.
+✅ **Gestión de Cuentas Bancarias** - Crear y administrar cuentas con PIN seguro  
+✅ **Retiros de Dinero** - Con validación de PIN y verificación de saldo  
+✅ **Depósitos** - Agregar fondos a la cuenta  
+✅ **Consulta de Saldo** - Ver el saldo actual en tiempo real  
+✅ **Seguridad** - Bloqueo de cuenta después de 3 intentos fallidos de PIN  
+✅ **Manejo de Errores** - Respuestas JSON estructuradas con códigos de estado HTTP
 
-We recommend opening this very same repository using a provisioning tool like [Codespaces](https://4geeks.com/lesson/what-is-github-codespaces) (recommended) or [Gitpod](https://4geeks.com/lesson/how-to-use-gitpod). Alternatively, you can clone it on your local computer using the `git clone` command.
+---
 
-This is the repository you need to open:
+## 🛠️ Tecnologías Utilizadas
 
-```txt
-https://github.com/breatheco-de/exercise-family-static-api
+- **Python 3.x** - Lenguaje principal
+- **Flask** - Framework web
+- **Flask-CORS** - Habilitación de CORS para solicitudes desde otros dominios
+- **Estructuras de Datos Personalizadas** - Clase `BankAccount` en `datastructures.py`
+
+---
+
+## 📦 Instalación
+
+### Requisitos previos
+- Python 3.7+
+- pip o pipenv
+
+### Pasos
+
+1. **Clonar el repositorio:**
+```bash
+git clone https://github.com/PzD3v/Cajero-automatico--ATM--datastructures-API.git
+cd Cajero-automatico--ATM--datastructures-API
 ```
 
-**👉 Please follow these steps on** [how to start a coding project](https://4geeks.com/lesson/how-to-start-a-project).
-
-</onlyfor>
-
-## 💻 Installation
-
-1. Install the project dependencies by running `$ pipenv install`
-
-2. Get inside the virtual environment by running `$ pipenv shell`
-
-3. Start the server by running `$ pipenv run start`
-
-## ✅ Automatic grading
-
-+ Test your code by running `$ pipenv run test`
-
-## 📝 Instructions
-
-1. Create the code needed to implement the API endpoints described further below.  
-
-2. The only two files you have to edit are:  
-
-- `src/datastructure.py`: Contains the class with the rules on how to manage the family members.  
-- `src/app.py`: Contains the API, it uses the Family as data structure. 
-
-3. We have prepared a set of automated tests that will give you an idea if your code is correct. Run the tests by typing `$ pipenv run test` on the command line.  
-
-## Data structures
-
-Every **member** of the Jackson family must be a dictionary - the equivalent of [Objects Literals in JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects) - and have these values:
-
-```python
-+ id: Int
-+ first_name: String
-+ last_name: String (Always Jackson)
-+ age: Int > 0
-+ lucky_numbers: List of integers
+2. **Instalar dependencias:**
+```bash
+pipenv install
 ```
 
-The **family** data-structure will be a class with the following structure:
-
-```python
-class FamilyStructure:
-    def __init__(self, last_name):
-        self.last_name = last_name
-        self._next_id = 1
-        self._members = []
-
-    # This method generates a unique 'id' when adding members into the list (you shouldn't touch this function)
-    def _generate_id(self):
-        generated_id = self._next_id
-        self._next_id += 1
-        return generated_id
-
-    def add_member(self, member):
-        ## You have to implement this method
-        ## Append the member to the list of _members
-        pass
-
-    def delete_member(self, id):
-        ## You have to implement this method
-        ## Loop the list and delete the member with the given id
-        pass
-
-    def get_member(self, id):
-        ## You have to implement this method
-        ## Loop all the members and return the one with the given id
-        pass
-
-    def get_all_members(self):
-        return self._members
+3. **Activar el entorno virtual:**
+```bash
+pipenv shell
 ```
 
-Note: don't forget to initialize the class: `jackson_family = FamilyStructure('Jackson')` *before* the routes.
-
-## These are the initial Family Members
-
-```md
-John Jackson
-33 Years old
-Lucky Numbers: 7, 13, 22
-
-Jane Jackson
-35 Years old
-Lucky Numbers: 10, 14, 3
-
-Jimmy Jackson
-5 Years old
-Lucky Numbers: 1
+4. **Ejecutar el servidor:**
+```bash
+python src/app.py
 ```
 
-## Endpoints
+El servidor se iniciará en `http://0.0.0.0:3000`
 
-This API must have 4 endpoints. They all return JSON:
+---
 
-### 1) Get all family members:
+## 🚀 Uso de la API
 
-Which returns all members of the family.
-
-```md
-GET /members
-
-status_code: 200 if success. 400 if bad request (wrong info). 500 if the server encounters an error
-
-RESPONSE BODY (content-type: application/json):
-
-[]  <!--- List of members -->
+### Base URL
+```
+http://localhost:3000
 ```
 
-### 2) Retrieve one member
+### Endpoints
 
-Which returns the member of the family where `id == member_id`.
+#### 1️⃣ **Obtener Sitemap (Listar todos los endpoints)**
+```
+GET /
+```
+**Respuesta:** Lista de todos los endpoints disponibles
 
-```md
-GET /members/<int:member_id>
+---
 
-RESPONSE (content_type: application/json):
+#### 2️⃣ **Consultar Saldo**
+```
+GET /balance
+```
 
-status_code: 200 if success. 400 if bad request (wrong info). 500 if the server encounters an error
-
-
-body:  <!--- The member's json object --> 
+**Respuesta (200 OK):**
+```json
 {
-    "id": Int,
-    "first_name": String,
-    "age": Int,
-    "lucky_numbers": List
+  "balance": 1000.00
 }
-
 ```
 
-### 3) Add (POST) new member
+---
 
-Which adds a new member to the family data structure.
+#### 3️⃣ **Realizar Retiro**
+```
+POST /withdraw
+```
 
-```md
-POST /members
-
-REQUEST BODY (content_type: application/json):
+**Request Body:**
+```json
 {
-    id: Int,
-    first_name: String,
-    age: Int,
-    lucky_numbers: []
+  "amount": 100.50,
+  "pin": "12345"
 }
-
-RESPONSE (content_type: application/json):
-
-status_code: 200 if success. 400 if a bad request (wrong info). 500 if the server encounters an error
 ```
 
-### 4) DELETE one member
+**Respuestas:**
 
-Which deletes a family member with `id == member_id`
-
-```md
-DELETE /members/<int:member_id>
-
-RESPONSE (content_type: application/json):
-
-status_code: 200 if success. 400 if a bad request (wrong info). 500 if the server encounters an error
-
-body: {
-    done: True
-}    
+✅ **Retiro Exitoso (200):**
+```json
+{
+  "msg": "Retiro exitoso. Saldo restante: 899.50"
+}
 ```
 
-## Requirements
+❌ **PIN Incorrecto (401):**
+```json
+{
+  "msg": "PIN incorrecto. Inténtalo de nuevo"
+}
+```
 
-- All requests and responses should be in content/type: application/json
-- Response codes must be `200` for success, `400` for bad request, or `404` for not found.
-- These exercises do not include a database, everything must be done in Runtime (RAM).
+❌ **Fondos Insuficientes (400):**
+```json
+{
+  "msg": "Saldo insuficiente para completar el retiro"
+}
+```
 
-This and many other projects are built by students as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+❌ **Cuenta Bloqueada (403):**
+```json
+{
+  "msg": "SEGURIDAD: Cuenta bloqueada por exceso de intentos"
+}
+```
+
+---
+
+#### 4️⃣ **Realizar Depósito**
+```
+POST /deposit
+```
+
+**Request Body:**
+```json
+{
+  "amount": 500.00
+}
+```
+
+**Respuesta (200 OK):**
+```json
+{
+  "msg": "Depósito con éxito. Nuevo saldo: 1500.00"
+}
+```
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+src/
+├── app.py                 # API Flask con todos los endpoints
+├── datastructures.py      # Clase BankAccount y lógica bancaria
+├── utils.py              # Funciones auxiliares (APIException, sitemap)
+└── requirements.txt      # Dependencias del proyecto
+```
+
+### Archivo Principal: `app.py`
+
+Contiene:
+- Inicialización de la aplicación Flask
+- Configuración de CORS
+- Definición de los 4 endpoints principales
+- Manejo de errores y validación de datos
+- Instancia de la cuenta bancaria (`my_account`)
+
+---
+
+## 🔐 Seguridad
+
+- **Validación de PIN:** Verifica el PIN antes de permitir retiros
+- **Bloqueo por Intentos Fallidos:** Después de 3 intentos fallidos, la cuenta se bloquea
+- **Validación de Montos:** Solo permite cantidades mayores a cero
+- **Manejo de Excepciones:** Conversión segura de tipos de datos
+- **Códigos de Estado HTTP Apropiados:**
+  - `200` - Éxito
+  - `400` - Solicitud inválida
+  - `401` - No autorizado (PIN incorrecto)
+  - `403` - Acceso denegado (cuenta bloqueada)
+
+---
+
+## 🧪 Testing
+
+Para ejecutar pruebas (si están disponibles):
+```bash
+pipenv run test
+```
+
+---
+
+## 📝 Ejemplo de Uso Completo
+
+```bash
+# 1. Consultar saldo inicial
+curl -X GET http://localhost:3000/balance
+
+# 2. Realizar un depósito
+curl -X POST http://localhost:3000/deposit \
+  -H "Content-Type: application/json" \
+  -d '{"amount": 500}'
+
+# 3. Realizar un retiro
+curl -X POST http://localhost:3000/withdraw \
+  -H "Content-Type: application/json" \
+  -d '{"amount": 100, "pin": "12345"}'
+
+# 4. Consultar nuevo saldo
+curl -X GET http://localhost:3000/balance
+```
+
+---
+
+## 💡 Conceptos de Estructuras de Datos Aplicados
+
+Este proyecto demuestra:
+- **Encapsulamiento:** La clase `BankAccount` encapsula el saldo y la lógica de validación
+- **Abstracción:** Los métodos ocultan la complejidad de las operaciones bancarias
+- **Gestión de Estado:** Mantiene el estado de la cuenta (saldo, PIN, intentos fallidos)
+- **Validación de Datos:** Implementa lógica para garantizar operaciones válidas
+
+---
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Para cambios mayores, abre primero un issue para discutir los cambios propuestos.
+
+---
+
+## 📄 Licencia
+
+Este proyecto está disponible bajo la licencia MIT.
+
+---
+
+## 👤 Autor
+
+**PzD3v** - [GitHub Profile](https://github.com/PzD3v)
+
+---
+
+## 📞 Soporte
+
+Si encuentras problemas, abre un [issue](https://github.com/PzD3v/Cajero-automatico--ATM--datastructures-API/issues) en el repositorio.
